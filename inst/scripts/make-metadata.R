@@ -34,4 +34,4 @@ encode_full_metadata_df = data.frame(
     RDataPath="", # TODO: fill this out once data have been uploaded to S3.
     Tags="ENCODE")    
     
-write(rbind(encode_lite_metadata_df, encode_full_metadata_df), file="inst/extdata/metadata.csv", header=TRUE)
+write.csv(rbind(encode_lite_metadata_df, encode_full_metadata_df), file="inst/extdata/metadata.csv", row.names=FALSE)
