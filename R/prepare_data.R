@@ -71,7 +71,6 @@ prepare_ENCODEdb <- function(database_filename = "tables.RDA",
 #'         tables = prepare_ENCODEdb()
 #'         export_ENCODEdb_matrix_lite(database_filename = tables)
 #'     }
-#' @import parallel
 export_ENCODEdb_matrix_lite <- function(database_filename) {
   db = database_filename
   encode_df = db$file
@@ -166,7 +165,6 @@ export_ENCODEdb_matrix_lite <- function(database_filename) {
 #'         tables = prepare_ENCODEdb()
 #'         export_ENCODEdb_matrix(database_filename = tables)
 #'     }
-#' @import parallel
 #' 
 #' @export
 export_ENCODEdb_matrix <- function(database_filename) {
@@ -235,6 +233,7 @@ pull_column_merge <- function(table1, table2, id1, id2, pulled_column, updated_v
 # then creates a new data.table from the column pairings described in
 # value_pairs. Ex: c("antibody_target"="target") will create a column
 # named "antibody_target" from table2$target. (Similar to dplyr::*_join)
+#' @import data.table
 pull_columns <- function(table1, table2, id1, id2, value_pairs) {
     retval <- NULL
     for(i in 1:length(value_pairs)) {
