@@ -3,8 +3,8 @@ encode_lite_metadata_df = data.frame(
     Description="A data-frame containing a curated selection of metadata describing all files made available by the ENCODE project.",
     BiocVersion="3.9",
     Genome=NA,
-    SourceType=NA,
-    SourceUrl=NA,
+    SourceType="JSON",
+    SourceUrl="https://www.encodeproject.org/",
     SourceVersion=NA,
     Species=NA,
     TaxonomyId=NA,
@@ -14,15 +14,16 @@ encode_lite_metadata_df = data.frame(
     RDataClass="data.table",
     DispatchClass="Rda",
     RDataPath="ENCODExplorerData/encode_df_lite.rda", # TODO: fill this out once data have been uploaded to S3.
-    Tags="ENCODE")
+    Tags="ENCODE",
+    stringsAsFactors=FALSE)
     
 encode_full_metadata_df = data.frame(
     Title="ENCODE File Metadata (Full, 2019-04-12 build)",
     Description="A data-frame containing a large selection of metadata describing all files made available by the ENCODE project.",
     BiocVersion="3.9",
     Genome=NA,
-    SourceType=NA,
-    SourceUrl=NA,
+    SourceType="JSON",
+    SourceUrl="https://www.encodeproject.org/",
     SourceVersion=NA,
     Species=NA,
     TaxonomyId=NA,
@@ -32,6 +33,8 @@ encode_full_metadata_df = data.frame(
     RDataClass="data.table",
     DispatchClass="Rda",
     RDataPath="ENCODExplorerData/encode_df_full.rda", # TODO: fill this out once data have been uploaded to S3.
-    Tags="ENCODE")    
-    
-write.csv(rbind(encode_lite_metadata_df, encode_full_metadata_df), file="metadata.csv", row.names=FALSE)
+    Tags="ENCODE",
+    stringsAsFactors=FALSE)    
+
+dir.create("inst/extdata", recursive=TRUE, showWarnings=FALSE)    
+write.csv(rbind(encode_lite_metadata_df, encode_full_metadata_df), file="inst/extdata/metadata.csv", row.names=FALSE)
