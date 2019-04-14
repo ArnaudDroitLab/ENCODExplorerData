@@ -1,19 +1,18 @@
-
-#' Create the list of data.table for the tables in ENCODE
+#' Fetches and preprocess the raw metadata tables from ENCODE.
 #' 
-#' @return is a \code{list} with selected tables from ENCODE.
-#'
-#' @param database_filename The name of the file to save the database into.
+#' @param database_filename A file name for caching the selected tables into.
 #' @param types The names of the tables to extract using the ENCODE rest api.
 #' @param overwrite If database_filename already exists, should it be overwritten?
 #'   Default: \code{FALSE}.
+#'
+#' @return A \code{list} with all selected tables from ENCODE.
 #' 
 #' @examples
-#' prepare_ENCODEdb(database_filename = "tables.RDA", types = "platform")
+#' prepare_ENCODEdb(database_filename = "platform.RDA", types = "platform")
 #' file.remove("platform.RDA")
-#'     \dontrun{
-#'         prepare_ENCODEdb("ENCODEdb.RDA")
-#'     }
+#' \dontrun{
+#'     prepare_ENCODEdb("ENCODEdb.RDA")
+#' }
 #'     
 #' @import data.table
 #' @export

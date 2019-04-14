@@ -15,8 +15,8 @@ simply run the `inst/scripts/make-data.R` script.
 
 [![Bioconductor Time](http://bioconductor.org/shields/years-in-bioc/ENCODExplorer.svg)](http://bioconductor.org/packages/release/bioc/html/ENCODExplorer.html "Bioconductor status")
 
-ENCODExplorer is now an official package of [Bioconductor](http://bioconductor.org/). The current release can be directly downloaded from their website:
-[Current release](http://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html)
+ENCODExplorerData is now an official package of [Bioconductor](http://bioconductor.org/). The current release can be directly downloaded from their website:
+[Current release](http://www.bioconductor.org/packages/release/bioc/html/ENCODExplorerData.html)
 
 ## Authors ##
 

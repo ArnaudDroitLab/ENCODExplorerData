@@ -1,7 +1,8 @@
 #' Extract a data.frame corresponding to a table in ENCODE database
 #'
-#' @param type The type of table to extract from ENCODE rest api.
-#'
+#' @param type The type of table to extract from the ENCODE rest api.
+#'             Available types can be obtained using 
+#'             \code{\link{get_encode_types}}.
 #' @return a \code{data.frame} corresponding to the table asked. If no match is
 #'         found, returns an empty \code{data.frame}
 #'         
@@ -55,7 +56,6 @@ extract_table <- function(type) {
 #' input \code{data.frame}.
 #' 
 #' @importFrom tidyr spread
-#' 
 clean_column <- function(column_name, table) {
   
     stopifnot(is.character(column_name))
@@ -286,9 +286,6 @@ clean_column <- function(column_name, table) {
 #'
 #' @return a \code{data.frame} corresponding to the cleaned version of the
 #' input \code{data.frame}.
-#'
-#' 
-
 clean_table <- function(table) {
 
     class_vector <- as.vector(sapply(table, class))
