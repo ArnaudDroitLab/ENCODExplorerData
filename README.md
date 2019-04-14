@@ -22,6 +22,7 @@ ENCODExplorerData is now an official package of [Bioconductor](http://bioconduct
 
 [Charles Joly Beauparlant](http://ca.linkedin.com/pub/charles-joly-beauparlant/89/491/3b3 "Charles Joly Beauparlant"), Eric Fournier and [Arnaud Droit](http://ca.linkedin.com/in/drarnaud "Arnaud Droit").
 
+
 See [Arnaud Droit Lab](http://bioinformatique.ulaval.ca/home/ "Arnaud Droit Lab") website.
 
 ## Maintainer ##

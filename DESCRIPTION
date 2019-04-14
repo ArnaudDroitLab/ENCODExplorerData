@@ -35,5 +35,5 @@ Suggests:
     curl,
     httr
 LazyData: true
-biocViews: Infrastructure, DataImport
+biocViews: Infrastructure, DataImport, AnnotationHub
 RoxygenNote: 6.1.1
