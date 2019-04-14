@@ -1,7 +1,15 @@
-ENCODExplorer: A compilation of ENCODE metadata
+ENCODExplorerData: A compilation of ENCODE metadata
 ========================================================
 
-This package allows user to quickly access ENCODE project files metadata and give access to helper functions to query the ENCODE rest api, download ENCODE datasets and save the database in SQLite format.
+This package has been designed to facilitate data access by compiling the 
+metadata associated with ENCODE files and making it available in the format
+of a data table. While this data can be accessed as-is, we recommend using
+the ENCODExplorer companion package, which contains utility functions
+for using the online ENCODE search function, downloading selected files,
+and retrieving control-treatment experimental designs from ENCODE.
+
+To generate up-to-date version of the data tables exported by this package,
+simply run the `inst/scripts/make-data.R` script.
 
 ## Bioconductor Package ##
 
@@ -12,13 +20,13 @@ ENCODExplorer is now an official package of [Bioconductor](http://bioconductor.o
 
 ## Authors ##
 
-[Charles Joly Beauparlant](http://ca.linkedin.com/pub/charles-joly-beauparlant/89/491/3b3 "Charles Joly Beauparlant"), [Audrey Lemaçon](https://www.linkedin.com/in/audreylemacon "Audrey Lemaçon") and [Arnaud Droit](http://ca.linkedin.com/in/drarnaud "Arnaud Droit").
+[Charles Joly Beauparlant](http://ca.linkedin.com/pub/charles-joly-beauparlant/89/491/3b3 "Charles Joly Beauparlant"), Eric Fournier and [Arnaud Droit](http://ca.linkedin.com/in/drarnaud "Arnaud Droit").
 
 See [Arnaud Droit Lab](http://bioinformatique.ulaval.ca/home/ "Arnaud Droit Lab") website.
 
 ## Maintainer ##
 
-[Charles Joly Beauparlant](http://ca.linkedin.com/pub/charles-joly-beauparlant/89/491/3b3 "Charles Joly Beauparlant")
+[Eric Fournier](mailto:fournier.eric.2@crchudequebec.ulaval.ca "Eric Fournier")
 
 ## License ##
 
@@ -28,4 +36,4 @@ For more information on Artistic 2.0 License see [http://opensource.org/licenses
 
 ## Bugs/Feature requests ##
 
-If you have any bugs or feature requests, [let us know](https://github.com/CharlesJB/ENCODExplorer/issues). Thanks!
+If you have any bugs or feature requests, [let us know](https://github.com/ArnaudDroitLab/ENCODExplorerData/issues). Thanks!
