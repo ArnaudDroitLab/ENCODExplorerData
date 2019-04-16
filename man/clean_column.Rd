@@ -9,7 +9,7 @@ clean_column(column_name, table)
 \arguments{
 \item{column_name}{The name of the column for the table that is been process.}
 
-\item{table}{The table produced by the \code{extract_table} function.}
+\item{table}{The table produced by the \code{fetch_table_from_ENCODE_REST} function.}
 }
 \value{
 a \code{data.frame} corresponding to the cleaned version of the

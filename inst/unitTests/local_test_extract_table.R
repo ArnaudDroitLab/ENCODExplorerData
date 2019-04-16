@@ -3,8 +3,8 @@ if(FALSE) {
   library( "ENCODExplorerData" )
 }
 
-res = extract_table(type = "platform")
+res = fetch_table_from_ENCODE_REST(type = "platform")
 checkTrue(nrow(res) > 0, "this function should return an non empty data.frame")
 
-res = extract_table(type = "test")
+res = fetch_table_from_ENCODE_REST(type = "test")
 checkTrue(nrow(res) == 0, "this function should return an empty data.frame")

@@ -2,12 +2,12 @@
 % Please edit documentation in R/rest_api.R
 \name{clean_table}
 \alias{clean_table}
-\title{Clean a data.frame that was produced by extract_table}
+\title{Clean a data.frame that was produced by fetch_table_from_ENCODE_REST}
 \usage{
 clean_table(table)
 }
 \arguments{
-\item{table}{The table produced by the \code{extract_table} function.}
+\item{table}{The table produced by the \code{fetch_table_from_ENCODE_REST} function.}
 }
 \value{
 a \code{data.frame} corresponding to the cleaned version of the

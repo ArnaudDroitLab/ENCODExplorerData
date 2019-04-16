@@ -8,7 +8,7 @@
 #'         
 #' @importFrom jsonlite fromJSON
 #' @import RCurl
-extract_table <- function(type) {
+fetch_table_from_ENCODE_REST <- function(type) {
   filters = "&limit=all"
   filters = paste0(filters, "&frame=object&format=json")
   
@@ -50,7 +50,7 @@ extract_table <- function(type) {
 #' columns to a vector or data.frame.
 #'
 #' @param column_name The name of the column for the table that is been process.
-#' @param table The table produced by the \code{extract_table} function.
+#' @param table The table produced by the \code{fetch_table_from_ENCODE_REST} function.
 #'
 #' @return a \code{data.frame} corresponding to the cleaned version of the
 #' input \code{data.frame}.
@@ -273,7 +273,7 @@ clean_column <- function(column_name, table) {
   column
 }
 
-#' Clean a data.frame that was produced by extract_table
+#' Clean a data.frame that was produced by fetch_table_from_ENCODE_REST
 #'
 #' \code{data.frame}s produced when converting JSON to \code{data.frame} with
 #' the \code{fromJSON} function will sometime have columns that are lists
@@ -282,7 +282,7 @@ clean_column <- function(column_name, table) {
 #' This function will either remove columns that are not relevant and convert
 #' columns to a vector or data.frame.
 #'
-#' @param table The table produced by the \code{extract_table} function.
+#' @param table The table produced by the \code{fetch_table_from_ENCODE_REST} function.
 #'
 #' @return a \code{data.frame} corresponding to the cleaned version of the
 #' input \code{data.frame}.

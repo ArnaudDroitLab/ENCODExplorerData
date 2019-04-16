@@ -1,29 +1,29 @@
 #' Fetches and preprocess the raw metadata tables from ENCODE.
 #' 
-#' @param database_filename A file name for caching the selected tables into.
+#' @param cache_filename A file name for caching the selected tables into.
 #' @param types The names of the tables to extract using the ENCODE rest api.
-#' @param overwrite If database_filename already exists, should it be overwritten?
+#' @param overwrite If cache_filename already exists, should it be overwritten?
 #'   Default: \code{FALSE}.
 #'
 #' @return A \code{list} with all selected tables from ENCODE.
 #' 
 #' @examples
-#' prepare_ENCODEdb(database_filename = "platform.RDA", types = "platform")
+#' fetch_and_clean_raw_ENCODE_tables(cache_filename = "platform.RDA", types = "platform")
 #' file.remove("platform.RDA")
 #'     
 #' @import data.table
 #' @export
-prepare_ENCODEdb <- function(database_filename = "tables.RDA",
+fetch_and_clean_raw_ENCODE_tables <- function(cache_filename = "tables.RDA",
                              types = get_encode_types(), overwrite = FALSE) {
-  if(file.exists(database_filename) && !overwrite) {
-    warning(paste0("The file ", database_filename, " already exists and will not be overwritten.\n",
+  if(file.exists(cache_filename) && !overwrite) {
+    warning(paste0("The file ", cache_filename, " already exists and will not be overwritten.\n",
                    "Please delete it or set overwrite = TRUE before re-running the data preparation"))
     NULL
   } else {
     # Extract the tables from the ENCODE rest api
     extract_type <- function(type) {
       cat("Extracting table", type, "\n")
-      table <- extract_table(type)
+      table <- fetch_table_from_ENCODE_REST(type)
       if(ncol(table) == 0) {
         return(NULL)
       }
@@ -37,7 +37,7 @@ prepare_ENCODEdb <- function(database_filename = "tables.RDA",
     names(tables) <- types
     tables[sapply(tables, is.null)] <- NULL
     tables <- lapply(tables, as.data.table)
-    save(tables, file=database_filename)
+    save(tables, file=cache_filename)
    
     # Extract data from the DB
     if(length(tables) > 0) {
@@ -46,7 +46,7 @@ prepare_ENCODEdb <- function(database_filename = "tables.RDA",
     else
     {
       warning(paste0("Something went wrong during data preparation. ",
-                     "Please erase the database ", database_filename, " and re-run the whole process.",
+                     "Please erase the database ", cache_filename, " and re-run the whole process.",
                      "If the problem persists, please contact us"))
       NULL
     }
@@ -56,19 +56,21 @@ prepare_ENCODEdb <- function(database_filename = "tables.RDA",
 
 #' Extract file metadata from the full set of ENCODE metadata tables.
 #'
-#' @return a \code{data.table} containing relevant metadata for all
+#' @return A \code{list} containing two \code{data.table} objects:
+#'   \code{encode_df}, containing the most interesting metadata columns,
+#'   and \code{encode_df_ext}, containing relevant metadata for all
 #'   ENCODE files.
 #'
-#' @param database_filename A list of ENCODE metadata tables as loaded by
-#'   prepare_ENCODEdb.
+#' @param tables A list of ENCODE metadata tables as loaded by
+#'   fetch_and_clean_raw_ENCODE_tables.
 #'
 #' @examples
 #'     \dontrun{
-#'         tables = prepare_ENCODEdb()
-#'         export_ENCODEdb_matrix_lite(database_filename = tables)
+#'         tables = fetch_and_clean_raw_ENCODE_tables()
+#'         build_file_db_from_raw_tables(tables = tables)
 #'     }
-export_ENCODEdb_matrix_lite <- function(database_filename) {
-  db = database_filename
+build_file_db_from_raw_tables <- function(tables) {
+  db = tables
   encode_df = db$file
   
   # Renaming certain column.
@@ -123,29 +125,20 @@ export_ENCODEdb_matrix_lite <- function(database_filename) {
                     "file_status", "submitted_by", "library", "derived_from",
                     "file_format_type", "file_format_specifications", "genome_annotation",
                     "external_accession", "date_released", "biosample_ontology", "md5sum")
-
-  ext_col_1 <- c("notes", "cloud_metadata.url", "s3_uri")
-  ext_col_2 <- c("date_created", "uuid",  "cloud_metadata.md5sum_base64", "quality_metrics", "content_md5sum")
-  all_explicit_columns = c(main_columns, ext_col_1, ext_col_2)
-  other_columns = setdiff(colnames(encode_df), all_explicit_columns)
+  other_columns = setdiff(colnames(encode_df), main_columns)
   
   # Protect against columns that might no longer part of the ENCODE metadata.
-  
-  missing_columns = setdiff(all_explicit_columns, colnames(encode_df))
+  missing_columns = setdiff(main_columns, colnames(encode_df))
   if(length(missing_columns) != 0) {
       message("Some expected columns are no longer present within ENCODE metadata.")
       message("Missing columns: ", paste(missing_columns, collapse=", "))
   }
   
   encode_df_lite = encode_df[,intersect(main_columns, colnames(encode_df)), with=FALSE]
-  encode_df_ext_1 = encode_df[,intersect(ext_col_1, colnames(encode_df)), with=FALSE]
-  encode_df_ext_2 = encode_df[,intersect(ext_col_2, colnames(encode_df)), with=FALSE]
-  encode_df_ext_3 = encode_df[,other_columns, with=FALSE]
+  encode_df_ext = encode_df[,other_columns, with=FALSE]
 
   return(list(encode_df=encode_df_lite, 
-              encode_df_ext_1=encode_df_ext_1, 
-              encode_df_ext_2=encode_df_ext_2, 
-              encode_df_ext_3=encode_df_ext_3))
+              encode_df_ext=encode_df_ext))
 }
 
 #' Extract file metadata from the full set of ENCODE metadata tables.
@@ -153,22 +146,39 @@ export_ENCODEdb_matrix_lite <- function(database_filename) {
 #' @return a \code{data.table} containing relevant metadata for all
 #'   ENCODE files.
 #'
-#' @param database_filename A list of ENCODE metadata tables as loaded by
-#'   prepare_ENCODEdb.
+#' @param tables A list of ENCODE metadata tables as loaded by
+#'   fetch_and_clean_raw_ENCODE_tables.
 #'
 #' @examples
 #'     \dontrun{
-#'         tables = prepare_ENCODEdb()
-#'         export_ENCODEdb_matrix(database_filename = tables)
+#'         tables = fetch_and_clean_raw_ENCODE_tables()
+#'         export_ENCODEdb_matrix(tables = tables)
 #'     }
 #' 
 #' @export
-export_ENCODEdb_matrix <- function(database_filename) {
-    split_df = export_ENCODEdb_matrix_lite(database_filename)
-    return(cbind(split_df[["encode_df"]], 
-                 split_df[["encode_df_ext_1"]],
-                 split_df[["encode_df_ext_2"]],
-                 split_df[["encode_df_ext_3"]]))
+generate_encode_df_lite <- function(tables) {
+    split_df = build_file_db_from_raw_tables(tables)
+    return(split_df$encode_df)
+}
+
+#' Given the raw ENCODE tables, this generate a data.table with the
+#' full set of file metadata columns.
+#'
+#' @return a \code{data.table} containing relevant metadata for all
+#'   ENCODE files.
+#'
+#' @param tables A list of ENCODE metadata tables as loaded by
+#'   fetch_and_clean_raw_ENCODE_tables.
+#'
+#' @examples
+#'     \dontrun{
+#'         tables = fetch_and_clean_raw_ENCODE_tables()
+#'         export_ENCODEdb_matrix(tables = tables)
+#'     }
+#' 
+#' @export
+generate_encode_df_full <- function(tables) {
+    return(do.call(cbind, build_file_db_from_raw_tables(tables)))
 }
 
 pull_column_id <- function(ids, table2, id2, pulled_column) {

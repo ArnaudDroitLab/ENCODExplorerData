@@ -8,11 +8,11 @@ NULL
 #' \code{\link{data.table}} object. See \code{inst/scripts/make-data.R}
 #' for the generation process.
 #
-#' The tables were generated with the \code{prepare_ENCODEdb} function.
+#' The tables were generated with the \code{fetch_and_clean_raw_ENCODE_tables} function.
 #'
 #' @seealso \code{\link{get_encode_types}} to get a list of possible types. Note
 #'   that some of the types are empty tables that are not included in the
-#'   database created with \code{\link{prepare_ENCODEdb}} function.
+#'   database created with \code{\link{fetch_and_clean_raw_ENCODE_tables}} function.
 #' 
 #' @name encode_df_lite
 #' @format A data table
