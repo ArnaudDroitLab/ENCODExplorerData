@@ -312,7 +312,7 @@ clean_table <- function(table) {
 #'
 #' @return a \code{list} of schemas.
 #' @examples
-#'   ENCODExplorer:::get_schemas()
+#'   ENCODExplorerData:::get_schemas()
 #' @importFrom jsonlite fromJSON
 get_schemas <- function() {
   # 1. Extract the description of the schemas

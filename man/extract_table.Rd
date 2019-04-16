@@ -7,7 +7,9 @@
 extract_table(type)
 }
 \arguments{
-\item{type}{The type of table to extract from ENCODE rest api.}
+\item{type}{The type of table to extract from the ENCODE rest api.
+Available types can be obtained using 
+\code{\link{get_encode_types}}.}
 }
 \value{
 a \code{data.frame} corresponding to the table asked. If no match is

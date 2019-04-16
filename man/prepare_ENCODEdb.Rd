@@ -2,13 +2,13 @@
 % Please edit documentation in R/prepare_data.R
 \name{prepare_ENCODEdb}
 \alias{prepare_ENCODEdb}
-\title{Create the list of data.table for the tables in ENCODE}
+\title{Fetches and preprocess the raw metadata tables from ENCODE.}
 \usage{
 prepare_ENCODEdb(database_filename = "tables.RDA",
   types = get_encode_types(), overwrite = FALSE)
 }
 \arguments{
-\item{database_filename}{The name of the file to save the database into.}
+\item{database_filename}{A file name for caching the selected tables into.}
 
 \item{types}{The names of the tables to extract using the ENCODE rest api.}
 
@@ -16,16 +16,16 @@ prepare_ENCODEdb(database_filename = "tables.RDA",
 Default: \code{FALSE}.}
 }
 \value{
-is a \code{list} with selected tables from ENCODE.
+A \code{list} with all selected tables from ENCODE.
 }
 \description{
-Create the list of data.table for the tables in ENCODE
+Fetches and preprocess the raw metadata tables from ENCODE.
 }
 \examples{
-prepare_ENCODEdb(database_filename = "tables.RDA", types = "platform")
+prepare_ENCODEdb(database_filename = "platform.RDA", types = "platform")
 file.remove("platform.RDA")
-    \dontrun{
-        prepare_ENCODEdb("ENCODEdb.RDA")
-    }
+\dontrun{
+    prepare_ENCODEdb("ENCODEdb.RDA")
+}
     
 }

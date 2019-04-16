@@ -1,6 +1,6 @@
 if(FALSE) {
   library( "RUnit" )
-  library( "ENCODExplorer" )
+  library( "ENCODExplorerData" )
 }
 
 res = extract_table(type = "platform")
