@@ -314,6 +314,7 @@ clean_table <- function(table) {
 #' @examples
 #'   ENCODExplorerData:::get_schemas()
 #' @importFrom jsonlite fromJSON
+#' @export
 get_schemas <- function() {
   # 1. Extract the description of the schemas
   types <- get_encode_types()

@@ -4,7 +4,7 @@ tables = ENCODExplorerData::prepare_ENCODEdb("tables.rda")
 
 # export_ENCODEdb_matrix_lite stitches together the many tables 
 # by performing left_joins where appropriate.
-encode_dfs = export_ENCODEdb_matrix_lite(tables)
+encode_dfs = ENCODExplorerData::export_ENCODEdb_matrix_lite(tables)
 
 # Write out encode_df_lite, which contains a limited,
 # curated set of metadata.

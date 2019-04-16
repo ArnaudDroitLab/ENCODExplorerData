@@ -19,7 +19,7 @@ License: Artistic-2.0
 BugReports: https://github.com/ArnaudDroitLab/ENCODExplorerData/issues
 VignetteBuilder: knitr
 Depends:
-    R (>= 3.5),
+    R (>= 3.6),
 Imports:
     tools,
     jsonlite,
@@ -31,5 +31,5 @@ Suggests:
     curl,
     httr
 LazyData: true
-biocViews: Infrastructure, DataImport, AnnotationHub
+biocViews: AnnotationHub, Homo_sapiens, Mus_musculus, CustomDBSchema
 RoxygenNote: 6.1.1

@@ -2,6 +2,7 @@
 
 export(export_ENCODEdb_matrix)
 export(get_encode_types)
+export(get_schemas)
 export(prepare_ENCODEdb)
 import(RCurl)
 import(data.table)

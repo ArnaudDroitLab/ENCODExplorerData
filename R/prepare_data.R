@@ -10,9 +10,6 @@
 #' @examples
 #' prepare_ENCODEdb(database_filename = "platform.RDA", types = "platform")
 #' file.remove("platform.RDA")
-#' \dontrun{
-#'     prepare_ENCODEdb("ENCODEdb.RDA")
-#' }
 #'     
 #' @import data.table
 #' @export

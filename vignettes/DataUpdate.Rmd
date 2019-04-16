@@ -1,7 +1,13 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Data update}
--->
+---
+title: "ENCODExplorerData: a collection of ENCODE file metadata"
+output:
+    BiocStyle::html_document:
+        toc: true
+vignette: >
+    %\VignetteIndexEntry{Introduction to ENCODExplorerData}
+    %\VignetteEngine{knitr::rmarkdown}
+    \usepackage[utf8]{inputenc}
+---
 
 ENCODExplorerData: A compilation of metadata from ENCODE
 ====================================================================
