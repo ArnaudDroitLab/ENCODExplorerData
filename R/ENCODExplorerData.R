@@ -17,12 +17,10 @@ NULL
 #' @name encode_df_lite
 #' @format A data table
 #' @examples
-#'   \dontrun{
 #'     library(AnnotationHub)
 #'     hub <- AnnotationHub()
-#'     myfiles <- query(hub, "ENCODE File Metadata (Light, 2019-04-12 build)")
+#'     myfiles <- query(hub, c("ENCODExplorerData", "Light"))
 #'     myfiles[[1]]
-#'   }
 NULL
 
 #' Extended metadata for the files made available by ENCODE database as a 
@@ -32,10 +30,8 @@ NULL
 #' @name encode_df_full
 #' @format A data table
 #' @examples
-#'   \dontrun{
 #'     library(AnnotationHub)
 #'     hub <- AnnotationHub()
-#'     myfiles <- query(hub, "ENCODE File Metadata (Full, 2019-04-12 build)")
+#'     myfiles <- query(hub, c("ENCODExplorerData", "Full"))
 #'     myfiles[[1]]
-#'   }
 NULL
