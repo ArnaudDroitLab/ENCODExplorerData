@@ -78,7 +78,7 @@ clean_column <- function(column_name, table) {
     # Case: data.frame
     if (is.data.frame(column)) {
         if (nrow(column) == nrow(table) & ncol(column) >= 1) {
-            for (i in 1:ncol(column)){
+            for (i in seq_len(ncol(column))){
               column[[i]]<-lapply(column[[i]], unlist)
               column[[i]] <- sapply(column[[i]], function(x) {
                 if (length(x) > 0) {
@@ -195,7 +195,7 @@ clean_column <- function(column_name, table) {
         } else if (all(sapply(column, class) == "data.frame" |
                    sapply(column, is.null))) {
             res <- vector("list", length(column))
-            for (i in 1:length(column)) {
+            for (i in seq_along(column)) {
                 if (is.null(column[[i]])) {
                     res[[i]] <- NA
                 } else if (nrow(column[[i]]) >= 1) {
@@ -250,7 +250,7 @@ clean_column <- function(column_name, table) {
             column <- df_clean
         } else {
             result <- as.list(rep(NA, nrow(table)))
-            for(i in 1:length(result)){
+            for(i in seq_along(result)){
               result[[i]] <- paste(unlist(column[[i]]), collapse = "; ")
             }
             column <- unlist(result)

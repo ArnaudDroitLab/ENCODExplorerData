@@ -207,7 +207,7 @@ pull_column_merge <- function(table1, table2, id1, id2, pulled_column, updated_v
 #' @import data.table
 pull_columns <- function(table1, table2, id1, id2, value_pairs) {
     retval <- NULL
-    for(i in 1:length(value_pairs)) {
+    for(i in seq_along(value_pairs)) {
         value_name = value_pairs[i]
         out_name = ifelse(is.null(names(value_pairs)), value_name, names(value_pairs)[i])
         out_name = ifelse(out_name=="", value_name, out_name)
