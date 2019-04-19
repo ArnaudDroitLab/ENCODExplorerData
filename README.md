@@ -1,27 +1,41 @@
 ENCODExplorerData: A compilation of ENCODE metadata
 ========================================================
 
+## Introduction ##
+
 This package has been designed to facilitate data access by compiling the 
 metadata associated with ENCODE files and making it available in the format
-of a data table. While this data can be accessed as-is, we recommend using
-the ENCODExplorer companion package, which contains utility functions
+of a data table. While this data can be accessed as-is, we recommend using the
+[ENCODExplorer](http://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html) 
+companion package, which contains utility functions
 for using the online ENCODE search function, downloading selected files,
 and retrieving control-treatment experimental designs from ENCODE.
 
+## Installation ##
+
+[![Bioconductor Time](http://bioconductor.org/shields/years-in-bioc/ENCODExplorerData.svg)](http://bioconductor.org/packages/release/bioc/html/ENCODExplorerData.html "Bioconductor status")
+
+ENCODExplorerData is an official [Bioconductor](http://bioconductor.org/)
+package. You can install it using the BiocManager package:
+
+```r
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("ENCODExplorerData")
+```
+
+You can also obtain the current release from the 
+[BioConductor website](http://www.bioconductor.org/packages/release/bioc/html/ENCODExplorerData.html).
+
+## Regenerating or updating ENCODE metadata ##
+
 To generate up-to-date version of the data tables exported by this package,
-simply run the `inst/scripts/make-data.R` script.
-
-## Bioconductor Package ##
-
-[![Bioconductor Time](http://bioconductor.org/shields/years-in-bioc/ENCODExplorer.svg)](http://bioconductor.org/packages/release/bioc/html/ENCODExplorer.html "Bioconductor status")
-
-ENCODExplorerData is now an official package of [Bioconductor](http://bioconductor.org/). The current release can be directly downloaded from their website:
-[Current release](http://www.bioconductor.org/packages/release/bioc/html/ENCODExplorerData.html)
+simply run the `inst/scripts/make-data.R` script. These will create files
+named `encode_df_lite.rda` and `encode_df_full.rda` in the current directory.
 
 ## Authors ##
 
 [Charles Joly Beauparlant](http://ca.linkedin.com/pub/charles-joly-beauparlant/89/491/3b3 "Charles Joly Beauparlant"), Eric Fournier and [Arnaud Droit](http://ca.linkedin.com/in/drarnaud "Arnaud Droit").
-
 
 See [Arnaud Droit Lab](http://bioinformatique.ulaval.ca/home/ "Arnaud Droit Lab") website.
 
