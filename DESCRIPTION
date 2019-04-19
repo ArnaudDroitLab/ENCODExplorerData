@@ -4,14 +4,16 @@ Type: Package
 Title: A compilation of ENCODE metadata
 Version: 0.99.0
 Date: 2019-04-11
-Author: Charles Joly Beauparlant <charles.joly-beauparlant@crchul.ulaval.ca>,
-    Eric Fournier <Fournier.Eric.2@crchudequebec.ulaval.ca> and Arnaud Droit
-    <arnaud.droit@crchudequebec.ulaval.ca >
-Author@R: c(person("Charles","Joly Beauparlant", email = "charles.joly-
-    beauparlant@crchul.ulaval.ca", role = "aut,cre"), person("Eric","Fournier",
-    email = "Fournier.Eric.2@crchudequebec.ulaval.ca", role = "aut"),
-    person("Arnaud", "Droit", email = "arnaud.droit@crchudequebec.ulaval.ca"))
-Maintainer: Eric Fournier <Fournier.Eric.2@crchudequebec.ulaval.ca>
+Authors@R: c(
+    person("Charles","Joly Beauparlant", 
+           email = "charles.joly-beauparlant@crchul.ulaval.ca", 
+           role = "aut"),
+    person("Eric","Fournier", 
+           email = "Fournier.Eric.2@crchudequebec.ulaval.ca", 
+           role = c("aut", "cre")),
+    person("Arnaud", "Droit", 
+           email = "arnaud.droit@crchudequebec.ulaval.ca",
+           role = "aut"))
 Description: This package allows user to quickly access ENCODE project files
     metadata and give access to helper functions to query the ENCODE rest api,
     download ENCODE datasets and save the database in SQLite format.
@@ -30,6 +32,5 @@ Suggests:
     RUnit,BiocGenerics,knitr,
     curl,
     httr
-LazyData: true
 biocViews: AnnotationHub, Homo_sapiens, Mus_musculus, CustomDBSchema
 RoxygenNote: 6.1.1
