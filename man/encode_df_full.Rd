@@ -12,10 +12,8 @@ Extended metadata for the files made available by ENCODE database as a
 for the generation process.
 }
 \examples{
-  \dontrun{
     library(AnnotationHub)
     hub <- AnnotationHub()
-    myfiles <- query(hub, "ENCODE File Metadata (Full, 2019-04-12 build)")
+    myfiles <- query(hub, c("ENCODExplorerData", "Full"))
     myfiles[[1]]
-  }
 }

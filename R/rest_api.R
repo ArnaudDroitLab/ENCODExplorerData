@@ -8,6 +8,7 @@
 #'         
 #' @importFrom jsonlite fromJSON
 #' @import RCurl
+#' @keywords internal
 fetch_table_from_ENCODE_REST <- function(type) {
   filters = "&limit=all"
   filters = paste0(filters, "&frame=object&format=json")
@@ -56,6 +57,7 @@ fetch_table_from_ENCODE_REST <- function(type) {
 #' input \code{data.frame}.
 #' 
 #' @importFrom tidyr spread
+#' @keywords internal
 clean_column <- function(column_name, table) {
   
     stopifnot(is.character(column_name))
@@ -286,6 +288,7 @@ clean_column <- function(column_name, table) {
 #'
 #' @return a \code{data.frame} corresponding to the cleaned version of the
 #' input \code{data.frame}.
+#' @keywords internal
 clean_table <- function(table) {
 
     class_vector <- as.vector(sapply(table, class))

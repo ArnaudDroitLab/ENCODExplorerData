@@ -69,6 +69,7 @@ fetch_and_clean_raw_ENCODE_tables <- function(cache_filename = "tables.RDA",
 #'         tables = fetch_and_clean_raw_ENCODE_tables()
 #'         build_file_db_from_raw_tables(tables = tables)
 #'     }
+#' @keywords internal
 build_file_db_from_raw_tables <- function(tables) {
   db = tables
   encode_df = db$file

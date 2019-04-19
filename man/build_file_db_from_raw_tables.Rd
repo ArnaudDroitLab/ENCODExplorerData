@@ -25,3 +25,4 @@ Extract file metadata from the full set of ENCODE metadata tables.
         build_file_db_from_raw_tables(tables = tables)
     }
 }
+\keyword{internal}

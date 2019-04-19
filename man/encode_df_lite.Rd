@@ -14,12 +14,10 @@ for the generation process.
 The tables were generated with the \code{fetch_and_clean_raw_ENCODE_tables} function.
 }
 \examples{
-  \dontrun{
     library(AnnotationHub)
     hub <- AnnotationHub()
-    myfiles <- query(hub, "ENCODE File Metadata (Light, 2019-04-12 build)")
+    myfiles <- query(hub, c("ENCODExplorerData", "Light"))
     myfiles[[1]]
-  }
 }
 \seealso{
 \code{\link{get_encode_types}} to get a list of possible types. Note
