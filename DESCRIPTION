@@ -27,9 +27,13 @@ Imports:
     jsonlite,
     RCurl,
     tidyr,
-    data.table
+    data.table,
+    methods
 Suggests:
-    RUnit,BiocGenerics,knitr,
+    AnnotationHub,
+    RUnit,
+    BiocGenerics,
+    knitr,
     curl,
     httr
 biocViews: AnnotationHub, Homo_sapiens, Mus_musculus, CustomDBSchema
