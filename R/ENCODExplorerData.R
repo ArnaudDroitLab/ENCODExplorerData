@@ -4,34 +4,54 @@
 #' @docType package
 NULL
 
-#' Metadata for the files made available by ENCODE database as a 
-#' \code{\link{data.table}} object. See \code{inst/scripts/make-data.R}
-#' for the generation process.
-#
-#' The tables were generated with the \code{fetch_and_clean_raw_ENCODE_tables} function.
+#' ENCODE file metadata, Light version
 #'
-#' @seealso \code{\link{get_encode_types}} to get a list of possible types. Note
-#'   that some of the types are empty tables that are not included in the
-#'   database created with \code{\link{fetch_and_clean_raw_ENCODE_tables}} function.
-#' 
+#' Metadata for the files made available by ENCODE database as a 
+#' \code{\link[data.table]{data.table}} object. See \code{inst/scripts/make-data.R}
+#' for the generation process. \code{encode_df_lite} contains a curated
+#' subset of the full metadata and is faster to load and easier to work
+#' with than \code{\link{encode_df_full}}.
+#'
 #' @name encode_df_lite
 #' @format A data table
 #' @examples
+#'     # You can use AnnotationHub to retrieve encode_df_lite.
 #'     library(AnnotationHub)
 #'     hub <- AnnotationHub()
-#'     myfiles <- query(hub, c("ENCODExplorerData", "Light"))
+#'     myfiles <- subset(hub, title=="ENCODE File Metadata (Light, 2019-04-12 build)")
+#'
+#'     # You can then have a look at the metadata of the retrieved object.
+#'     myfiles
+#'
+#'     # Finally, you can access the data.table itself by indexing into the 
+#'     # object returned by subset.
 #'     myfiles[[1]]
+#' @seealso \code{\link{generate_encode_df_lite}}, \code{\link{encode_df_full}}
 NULL
 
-#' Extended metadata for the files made available by ENCODE database as a 
+#' ENCODE file metadata, Full version
+#'
+#' Metadata for the files made available by ENCODE database as a 
 #' \code{\link{data.table}} object. See \code{inst/scripts/make-data.R}
-#' for the generation process.
+#' for the generation process. \code{encode_df_full} contains all processed
+#' metadata columns, including content md5sums, cloud URLs, etc.
+#' Operations on \code{encode_df_full} will take longer than those on 
+#' \code{\link{encode_df_lite}}, but may be required if some of the extra 
+#' metadata columns are necessary for your needs.
 #'
 #' @name encode_df_full
 #' @format A data table
 #' @examples
+#'     # You can use AnnotationHub to retrieve encode_df_full.
 #'     library(AnnotationHub)
 #'     hub <- AnnotationHub()
-#'     myfiles <- query(hub, c("ENCODExplorerData", "Full"))
+#'     myfiles <- subset(hub, title=="ENCODE File Metadata (Full, 2019-04-12 build)")
+#'
+#'     # You can then have a look at the metadata of the retrieved object.
+#'     myfiles
+#'
+#'     # Finally, you can access the data.table itself by indexing into the 
+#'     # object returned by subset.
 #'     myfiles[[1]]
+#' @seealso \code{\link{generate_encode_df_full}}, \code{\link{encode_df_lite}}
 NULL

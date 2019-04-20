@@ -2,18 +2,30 @@
 % Please edit documentation in R/ENCODExplorerData.R
 \name{encode_df_full}
 \alias{encode_df_full}
-\title{Extended metadata for the files made available by ENCODE database as a 
-\code{\link{data.table}} object. See \code{inst/scripts/make-data.R}
-for the generation process.}
+\title{ENCODE file metadata, Full version}
 \format{A data table}
 \description{
-Extended metadata for the files made available by ENCODE database as a 
+Metadata for the files made available by ENCODE database as a 
 \code{\link{data.table}} object. See \code{inst/scripts/make-data.R}
-for the generation process.
+for the generation process. \code{encode_df_full} contains all processed
+metadata columns, including content md5sums, cloud URLs, etc.
+Operations on \code{encode_df_full} will take longer than those on 
+\code{\link{encode_df_lite}}, but may be required if some of the extra 
+metadata columns are necessary for your needs.
 }
 \examples{
+    # You can use AnnotationHub to retrieve encode_df_full.
     library(AnnotationHub)
     hub <- AnnotationHub()
-    myfiles <- query(hub, c("ENCODExplorerData", "Full"))
+    myfiles <- subset(hub, title=="ENCODE File Metadata (Full, 2019-04-12 build)")
+
+    # You can then have a look at the metadata of the retrieved object.
+    myfiles
+
+    # Finally, you can access the data.table itself by indexing into the 
+    # object returned by subset.
     myfiles[[1]]
+}
+\seealso{
+encode_df_lite
 }

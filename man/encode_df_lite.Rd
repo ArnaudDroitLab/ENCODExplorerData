@@ -2,25 +2,28 @@
 % Please edit documentation in R/ENCODExplorerData.R
 \name{encode_df_lite}
 \alias{encode_df_lite}
-\title{Metadata for the files made available by ENCODE database as a 
-\code{\link{data.table}} object. See \code{inst/scripts/make-data.R}
-for the generation process.
-The tables were generated with the \code{fetch_and_clean_raw_ENCODE_tables} function.}
+\title{ENCODE file metadata, Light version}
 \format{A data table}
 \description{
 Metadata for the files made available by ENCODE database as a 
-\code{\link{data.table}} object. See \code{inst/scripts/make-data.R}
-for the generation process.
-The tables were generated with the \code{fetch_and_clean_raw_ENCODE_tables} function.
+\code{\link[data.table]{data.table}} object. See \code{inst/scripts/make-data.R}
+for the generation process. \code{encode_df_lite} contains a curated
+subset of the full metadata and is faster to load and easier to work
+with than \code{\link{encode_df_full}}.
 }
 \examples{
+    # You can use AnnotationHub to retrieve encode_df_lite.
     library(AnnotationHub)
     hub <- AnnotationHub()
-    myfiles <- query(hub, c("ENCODExplorerData", "Light"))
+    myfiles <- subset(hub, title=="ENCODE File Metadata (Light, 2019-04-12 build)")
+
+    # You can then have a look at the metadata of the retrieved object.
+    myfiles
+
+    # Finally, you can access the data.table itself by indexing into the 
+    # object returned by subset.
     myfiles[[1]]
 }
 \seealso{
-\code{\link{get_encode_types}} to get a list of possible types. Note
-  that some of the types are empty tables that are not included in the
-  database created with \code{\link{fetch_and_clean_raw_ENCODE_tables}} function.
+encode_df_full
 }
