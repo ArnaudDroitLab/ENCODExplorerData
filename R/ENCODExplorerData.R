@@ -1,7 +1,31 @@
 #' ENCODExplorerData
 #'
+#' This package aims to ease access to ENCODE file metadata by converting them
+#' into an easy-to-use data.table.
+#'
+#' The main feature of ENCODExplorerData are the two ENCODE file metadata data 
+#' tables exported though AnnotationHub, \code{\link{encode_df_lite}} 
+#' and \code{\link{encode_df_full}}). 
+#' While these can be accessed directly like any other data.table, we recommend 
+#' using the
+#' \href{http://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html}{ENCODExplorer}
+#' companion package, which contains utility functions
+#' for querying them, using the online ENCODE search function, downloading 
+#' selected files, and retrieving control-treatment experimental designs from 
+#' ENCODE.
+#'
+#' This package also exposes functions for regenerating up-to-date versions
+#' of the metadata tables. See the \code{\link{fetch_and_clean_raw_ENCODE_tables}},
+#' \code{\link{generate_encode_df_lite}} and \code{\link{generate_encode_df_full}}
+#' functions for more details.
+#'
 #' @name ENCODExplorerData
 #' @docType package
+#' @seealso \code{\link{encode_df_lite}},
+#'   \code{\link{encode_df_full}},
+#'   \code{\link{fetch_and_clean_raw_ENCODE_tables}},
+#'   \code{\link{generate_encode_df_lite}},
+#'   \code{\link{generate_encode_df_full}}
 NULL
 
 #' ENCODE file metadata, Light version

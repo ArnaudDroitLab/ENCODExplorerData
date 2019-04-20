@@ -25,5 +25,5 @@ with than \code{\link{encode_df_full}}.
     myfiles[[1]]
 }
 \seealso{
-encode_df_full
+\code{\link{generate_encode_df_lite}}, \code{\link{encode_df_full}}
 }

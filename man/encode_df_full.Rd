@@ -27,5 +27,5 @@ metadata columns are necessary for your needs.
     myfiles[[1]]
 }
 \seealso{
-encode_df_lite
+\code{\link{generate_encode_df_full}}, \code{\link{encode_df_lite}}
 }
