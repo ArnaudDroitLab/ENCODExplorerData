@@ -81,7 +81,7 @@ clean_column <- function(column_name, table) {
     if (is.data.frame(column)) {
         if (nrow(column) == nrow(table) & ncol(column) >= 1) {
             for (i in seq_len(ncol(column))){
-              column[[i]]<-lapply(column[[i]], unlist)
+              column[[i]] <- lapply(column[[i]], unlist)
               column[[i]] <- sapply(column[[i]], function(x) {
                 if (length(x) > 0) {
                   paste(x, collapse="; ")
@@ -247,7 +247,7 @@ clean_column <- function(column_name, table) {
             df_clean <- do.call("rbind", list_data)
             df_clean$sample <- factor(df_clean$sample,
                                       levels=seq_along(column_clean))
-            df_clean <- spread(df_clean, col_name, value, drop=FALSE)
+            df_clean <- spread(df_clean, "col_name", "value", drop=FALSE)
             df_clean$sample <- NULL
             column <- df_clean
         } else {
@@ -266,7 +266,7 @@ clean_column <- function(column_name, table) {
   type <- c("character", "data.frame", "logical",
             "numeric", "integer", "NULL")
   stopifnot(class(column) %in% type)
-  if(is(column, "data.frame")) {
+  if(methods::is(column, "data.frame")) {
       stopifnot(nrow(column) == nrow(table))
   }else if((class(column) %in% type) & !(is.null(column))){
       stopifnot(length(column) == nrow(table))

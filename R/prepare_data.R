@@ -105,10 +105,17 @@ build_file_db_from_raw_tables <- function(tables) {
   encode_df$replicate_list <- remove_id_prefix(encode_df$replicate_list)
   
   # Ordering the table by the accession column
-  encode_df <- encode_df[order(accession),]
+  encode_df <- encode_df[order(encode_df$accession),]
   
-  # Reordering the table, we want to have the column below as the first column
-  # to be display fellowed by the rest the remaining column available.
+  # Split the table into encode_df_lite and encode_df_full.
+  return(subset_final_columns(encode_df))
+}
+
+# Reorder columns, and define the subsets for encode_df_lite
+# and encode_df_full.
+subset_final_columns <- function(encode_df) {
+  # Reordering the table, we want to have the column below as the first columna
+  # to be display followed by the rest the remaining columns.
   main_columns <- c("accession", "file_accession", "file_type", "file_format",
                     "file_size", "output_category", "output_type", "target", "investigated_as",
                     "nucleic_acid_term", "assay", "treatment_id", "treatment", "treatment_amount",
