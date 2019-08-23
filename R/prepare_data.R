@@ -186,7 +186,11 @@ generate_encode_df_lite <- function(tables) {
 #' 
 #' @export
 generate_encode_df_full <- function(tables) {
-    return(do.call(cbind, build_file_db_from_raw_tables(tables)))
+    all_tables = build_file_db_from_raw_tables(tables)
+    # Set names to NULL, or they will be prepended to the resulting
+    # column names.
+    names(all_tables) = NULL
+    return(do.call(cbind, all_tables))
 }
 
 pull_column_id <- function(ids, table2, id2, pulled_column) {
