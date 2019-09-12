@@ -320,23 +320,24 @@ clean_table <- function(table) {
 #' @importFrom jsonlite fromJSON
 #' @export
 get_schemas <- function() {
-  # 1. Extract the description of the schemas
-  types <- get_encode_types()
-  schema_names <- paste0(types, ".json")
-  names(schema_names) <- types
-  
-  # 2. Fetch all the JSON files
-  raw_git_url <- "https://raw.githubusercontent.com"
-  encoded_repo <- "encode-dcc/encoded"
-  schema_path <- "src/encoded/schemas"
-  
-  base_url <- paste(raw_git_url, encoded_repo, "master", schema_path, 
-                    sep = "/")
-  urls <- paste(base_url, schema_names, sep = "/")
+  urls <- get_schema_urls()
   # We need to suppress warnings:
   #         Unexpected Content-Type: text/plain; charset=utf-8
   schema_json <- suppressWarnings(lapply(urls, jsonlite::fromJSON))
   schema_json
+}
+
+get_schema_urls <- function() {
+  encode_api_url <- "https://api.github.com/repos"
+  encoded_repo <- "encode-dcc/encoded"
+  schemas <- "src/encoded/schemas"
+  url <- paste(encode_api_url, encoded_repo, "contents", schemas, sep = "/")
+  schema_info <- jsonlite::fromJSON(url)
+  
+  schema_urls = schema_info$download_url
+  names(schema_urls) = schema_info$name
+  
+  return(schema_urls[!is.na(schema_urls)])
 }
 
 #' A list of known tables from ENCODE database.
