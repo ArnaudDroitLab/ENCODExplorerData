@@ -327,6 +327,13 @@ get_schemas <- function() {
   schema_json
 }
 
+#' Returns the URLs for downloading the XML schemas from ENCODE's github.
+#'
+#' @return a \code{character} \code{vector} of schema download URLs.
+#' @examples
+#'   ENCODExplorerData:::get_schema_urls()
+#' @importFrom jsonlite fromJSON
+#' @export
 get_schema_urls <- function() {
   encode_api_url <- "https://api.github.com/repos"
   encoded_repo <- "encode-dcc/encoded"
