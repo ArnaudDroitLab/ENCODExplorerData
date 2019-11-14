@@ -1,0 +1,18 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: R
+cache: packages
+
+r: bioc-devel
+bioc_check: true
+
+r_packages:
+  - covr
+  
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+    
+after_success:
+  - Rscript -e 'covr::codecov(type="all")'    

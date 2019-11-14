@@ -1,6 +1,12 @@
 ENCODExplorerData: A compilation of ENCODE metadata
 ========================================================
 
+<!-- badges: start -->
+  [![Travis build status](https://travis-ci.org/ArnaudDroitLab/ENCODExplorerData.svg?branch=master)](https://travis-ci.org/ArnaudDroitLab/ENCODExplorerData)
+  [![codecov](https://codecov.io/gh/ArnaudDroitLab/metagene2/branch/master/graph/badge.svg)](https://codecov.io/gh/ArnaudDroitLab/metagene2)
+  [![Bioconductor Time](http://bioconductor.org/shields/years-in-bioc/ENCODExplorerData.svg)](http://bioconductor.org/packages/release/bioc/html/ENCODExplorerData.html "Bioconductor status")
+<!-- badges: end -->
+
 ## Introduction ##
 
 This package has been designed to facilitate data access by compiling the 
@@ -12,8 +18,6 @@ for using the online ENCODE search function, downloading selected files,
 and retrieving control-treatment experimental designs from ENCODE.
 
 ## Installation ##
-
-[![Bioconductor Time](http://bioconductor.org/shields/years-in-bioc/ENCODExplorerData.svg)](http://bioconductor.org/packages/release/bioc/html/ENCODExplorerData.html "Bioconductor status")
 
 ENCODExplorerData is an official [Bioconductor](http://bioconductor.org/)
 package. You can install it using the BiocManager package:
