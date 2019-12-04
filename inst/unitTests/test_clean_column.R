@@ -10,14 +10,6 @@ test.column_character <- function() {
   checkIdentical(obs,exp)
 }
 
-test.column_dataFrame <- function () {
-    load(file=system.file("extdata/unitTest_df.rda", package="ENCODExplorerData"))
-    obs <- ENCODExplorerData:::clean_column("dFrame", unitTest_df)
-    exp <- data.frame(name=c("Bradley Bernstein, Broad", "NA", "NA", "John Stamatoyannopoulos, UW"), 
-           age=c("55","NA","NA","46"), stringsAsFactors = FALSE)
-    checkIdentical(exp, obs)
-}
-
 test.column_numeric <- function () {
     load(file=system.file("extdata/unitTest_df.rda", package="ENCODExplorerData"))
     exp <- c(11, 22, 33, 44)
@@ -54,10 +46,10 @@ test.column_list_dataFrame <- function () {
     list_dFrame.replicate.experiment = c(NA, "a replicate experiment", NA, NA)
     list_dFrame.replicate.target = c(NA, "a replicate target", NA, NA)
     
-    checkIdentical(as.character(obs[[1]]), list_dFrame.experiment.sample)
-    checkIdentical(as.character(obs[[2]]), list_dFrame.experiment.type)
-    checkIdentical(as.character(obs[[3]]), list_dFrame.replicate.experiment)
-    checkIdentical(as.character(obs[[4]]), list_dFrame.replicate.target)
+    checkIdentical(as.character(obs[["experiment.sample"]]), list_dFrame.experiment.sample)
+    checkIdentical(as.character(obs[["experiment.type"]]), list_dFrame.experiment.type)
+    checkIdentical(as.character(obs[["replicate.experiment"]]), list_dFrame.replicate.experiment)
+    checkIdentical(as.character(obs[["replicate.target"]]), list_dFrame.replicate.target)
 }
 
 test.column_list_numeric <- function () {
@@ -70,7 +62,7 @@ test.column_list_numeric <- function () {
 test.column_list_logical <- function () {
     load(file=system.file("extdata/unitTest_df.rda", package="ENCODExplorerData"))
     obs <- ENCODExplorerData:::clean_column("list_logical", unitTest_df)
-    exp <- c("FALSE; FALSE", "TRUE", "FALSE; TRUE", NA)
+    exp <- c("FALSE", "TRUE", "FALSE; TRUE", NA)
     checkIdentical(obs, exp)
 }
 

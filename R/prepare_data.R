@@ -29,7 +29,7 @@ fetch_and_clean_raw_ENCODE_tables <- function(cache_filename = "tables.RDA",
     
     # Return the named tables
     names(tables) <- types
-    tables[sapply(tables, is.null)] <- NULL
+    tables[vapply(tables, is.null, logical(1L))] <- NULL
     tables <- lapply(tables, as.data.table)
     save(tables, file=cache_filename)
    

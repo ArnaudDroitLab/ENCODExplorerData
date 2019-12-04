@@ -20,7 +20,7 @@ fetch_and_clean_raw_ENCODE_tables(
 Default: \code{FALSE}.}
 
 \item{precache}{A path to cache the raw metadata as returned by ENCODE and
-              pasrsed using jsonlite. If NULL, no caching is performed.
+              parsed using jsonlite. If NULL, no caching is performed.
 Default: \code{FALSE}.}
 }
 \value{

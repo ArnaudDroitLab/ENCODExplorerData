@@ -25,8 +25,9 @@ fetch_table_from_ENCODE_REST <- function(type) {
   } else {
     
     temp <- strsplit(type, split="_")[[1]]
-    utype <- sapply(temp,function(x){paste0(toupper(substr(x,1,1)),
-                                           substr(x,2,nchar(x)))})
+    utype <- vapply(temp,function(x){paste0(toupper(substr(x,1,1)),
+                                           substr(x,2,nchar(x)))},
+                    character(1L))
     utype <- paste(utype, collapse='')
     url <- "https://www.encodeproject.org/search/?type="
     url <- paste0(url, utype, filters)
@@ -55,17 +56,19 @@ fetch_table_from_ENCODE_REST <- function(type) {
 #'
 #' @return a \code{data.frame} corresponding to the cleaned version of the
 #' input \code{data.frame}.
+#' @examples
+#'   clean_table(ENCODExplorerData:::fetch_table_from_ENCODE_REST("award"))
 #' @export
 clean_table <- function(table) {
 
-    class_vector <- as.vector(sapply(table, class))
+    class_vector <- as.vector(vapply(table, class, character(1L)))
     good_class = class_vector %in% c("character", "list", "data.frame",
                                         "logical", "numeric", "integer")
     table <- table[,good_class]
     table_names <- gsub("@", "", colnames(table))
     table <- lapply(colnames(table), clean_column, table)
     names(table) <- table_names
-    table[sapply(table, is.null)] <- NULL
+    table[vapply(table, is.null, logical(1L))] <- NULL
     result <- data.frame(table, stringsAsFactors = FALSE)
 }
 

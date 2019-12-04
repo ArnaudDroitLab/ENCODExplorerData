@@ -1,7 +1,7 @@
 # fetch_and_clean_raw_ENCODE_tables fetches the various metadata tables from 
 # ENCODE (files, biosamples, treatments, etc.) and store them as data.frame 
 # objects.
-tables = ENCODExplorerData::fetch_and_clean_raw_ENCODE_tables("tables.rda")
+tables = ENCODExplorerData::fetch_and_clean_raw_ENCODE_tables("tables.rda", precache=".")
 
 # build_file_db_from_raw_tables stitches together the many tables 
 # by performing left_joins where appropriate.
