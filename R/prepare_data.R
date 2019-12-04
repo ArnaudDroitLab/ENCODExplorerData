@@ -4,6 +4,9 @@
 #' @param types The names of the tables to extract using the ENCODE rest api.
 #' @param overwrite If cache_filename already exists, should it be overwritten?
 #'   Default: \code{FALSE}.
+#' @param precache A path to cache the raw metadata as returned by ENCODE and
+#'                 parsed using jsonlite. If NULL, no caching is performed.
+#'   Default: \code{FALSE}.
 #'
 #' @return A \code{list} with all selected tables from ENCODE.
 #' 
@@ -14,24 +17,15 @@
 #' @import data.table
 #' @export
 fetch_and_clean_raw_ENCODE_tables <- function(cache_filename = "tables.RDA",
-                             types = get_encode_types(), overwrite = FALSE) {
+                             types = get_encode_types(), overwrite = FALSE,
+                             precache=NULL) {
   if(file.exists(cache_filename) && !overwrite) {
     warning(paste0("The file ", cache_filename, " already exists and will not be overwritten.\n",
                    "Please delete it or set overwrite = TRUE before re-running the data preparation"))
     NULL
   } else {
-    # Extract the tables from the ENCODE rest api
-    extract_type <- function(type) {
-      cat("Extracting table", type, "\n")
-      table <- fetch_table_from_ENCODE_REST(type)
-      if(ncol(table) == 0) {
-        return(NULL)
-      }
-      cat("Cleaning table", type, "\n")
-      table_clean <- clean_table(table)
-    }
     # List of data.frame
-    tables <- lapply(types, extract_type)
+    tables <- lapply(types, fetch_single_table, precache=precache)
     
     # Return the named tables
     names(tables) <- types
@@ -52,6 +46,40 @@ fetch_and_clean_raw_ENCODE_tables <- function(cache_filename = "tables.RDA",
     }
     
   }
+}
+
+# Download, cache and clean a single ENCODE table.
+fetch_single_table <- function(type, precache) {
+    res=NULL
+    cat("Extracting table", type, "\n")
+    
+    # Determine if a cached table exists, and it it does, load it.
+    if(!is.null(precache)) {
+        precache_path = file.path(precache, paste0(type, ".rds"))
+        if(file.exists(precache_path)) {
+            res = readRDS(precache_path)
+        }
+    }
+    
+    # If no cache exists or caching is turned off, fetch the table from ENCODE.
+    if(is.null(res)) {
+        res <- fetch_table_from_ENCODE_REST(type)
+    }
+    
+    # Save the unmodified table if caching is turned on.
+    if(!is.null(precache)) {
+        saveRDS(res, file=file.path(precache, paste0(type, ".rds")))
+    }
+    
+    # Clean the table if it is non-empty.
+    if(ncol(res) == 0) {
+        res = NULL
+    } else {
+        cat("Cleaning table", type, "\n")
+        res <- clean_table(jsonlite::flatten(res))
+    }
+    
+    return(res)
 }
 
 #' Extract file metadata from the full set of ENCODE metadata tables.

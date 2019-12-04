@@ -4,8 +4,12 @@
 \alias{fetch_and_clean_raw_ENCODE_tables}
 \title{Fetches and preprocess the raw metadata tables from ENCODE.}
 \usage{
-fetch_and_clean_raw_ENCODE_tables(cache_filename = "tables.RDA",
-  types = get_encode_types(), overwrite = FALSE)
+fetch_and_clean_raw_ENCODE_tables(
+  cache_filename = "tables.RDA",
+  types = get_encode_types(),
+  overwrite = FALSE,
+  precache = NULL
+)
 }
 \arguments{
 \item{cache_filename}{A file name for caching the selected tables into.}
@@ -13,6 +17,10 @@ fetch_and_clean_raw_ENCODE_tables(cache_filename = "tables.RDA",
 \item{types}{The names of the tables to extract using the ENCODE rest api.}
 
 \item{overwrite}{If cache_filename already exists, should it be overwritten?
+Default: \code{FALSE}.}
+
+\item{precache}{A path to cache the raw metadata as returned by ENCODE and
+              pasrsed using jsonlite. If NULL, no caching is performed.
 Default: \code{FALSE}.}
 }
 \value{

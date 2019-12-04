@@ -2,18 +2,18 @@
 % Please edit documentation in R/rest_api.R
 \name{clean_column}
 \alias{clean_column}
-\title{Clean a single column of the data.frame}
+\title{Clean a single column of a flattened data.frame returned by ENCODE.}
 \usage{
 clean_column(column_name, table)
 }
 \arguments{
-\item{column_name}{The name of the column for the table that is been process.}
+\item{column_name}{The name of the column to be processed.}
 
-\item{table}{The table produced by the \code{fetch_table_from_ENCODE_REST} function.}
+\item{table}{The table produced by the \code{fetch_table_from_ENCODE_REST} 
+function.}
 }
 \value{
-a \code{data.frame} corresponding to the cleaned version of the
-input \code{data.frame}.
+A flat column or columns to be cbind'ed into the final data.frame.
 }
 \description{
 The input column can either be a data.frame, a vector of character, a vector

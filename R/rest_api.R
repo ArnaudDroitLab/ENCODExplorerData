@@ -42,240 +42,6 @@ fetch_table_from_ENCODE_REST <- function(type) {
   return(results)
 }
 
-#' Clean a single column of the data.frame
-#'
-#' The input column can either be a data.frame, a vector of character, a vector
-#' of numeric or a list of one the previous type.
-#'
-#' This function will either remove columns that are not relevant and convert
-#' columns to a vector or data.frame.
-#'
-#' @param column_name The name of the column for the table that is been process.
-#' @param table The table produced by the \code{fetch_table_from_ENCODE_REST} function.
-#'
-#' @return a \code{data.frame} corresponding to the cleaned version of the
-#' input \code{data.frame}.
-#' 
-#' @importFrom tidyr spread
-#' @importFrom methods is
-#' @keywords internal
-clean_column <- function(column_name, table) {
-  
-    stopifnot(is.character(column_name))
-    stopifnot(column_name %in% colnames(table))
-    stopifnot(length(column_name) == 1)
-    stopifnot(is.data.frame(table))
-    stopifnot(nrow(table) >= 1)
-    
-    
-    column <- table[[column_name]]
-
-    clean_empty_list <- function(x){
-      if(is.list(x) & length(x) == 0){
-        NULL
-      }else{
-        x
-      }
-    }
-
-    # Case: data.frame
-    if (is.data.frame(column)) {
-        if (nrow(column) == nrow(table) & ncol(column) >= 1) {
-            for (i in seq_len(ncol(column))){
-              column[[i]] <- lapply(column[[i]], unlist)
-              column[[i]] <- sapply(column[[i]], function(x) {
-                if (length(x) > 0) {
-                  paste(x, collapse="; ")
-                } else {
-                  NA
-                }
-              })
-            }
-        } else {
-            column <- NULL
-        }
-    
-    # Case: character
-    } else if (is.character(column)) {
-        column
-    # Case: numeric
-    } else if (is.numeric(column)) {
-        if (length(column) == nrow(table)) {
-            column
-        } else {
-            column <- NULL
-        }
-    #Case: logical
-    }else if (is.logical(column)) {
-      if (length(column) == nrow(table)) {
-        column
-      } else {
-        column <- NULL
-      }
-    #Case: integer
-    }else if (is.integer(column)){
-      if (length(column) == nrow(table)){
-        column
-      }else{
-        column <- NULL
-      }
-      
-    } else if (is.list(column)) {
-        #Removing empty list in the column
-        column <- lapply(column,clean_empty_list)
-        
-        # List of empty list
-        if (all(sapply(column, length) == 0)) {
-            column <- NULL
-      
-        # List of numeric
-        } else if (all(sapply(column, class) == "numeric" | 
-                  sapply(column, is.null))) {
-            if (length(column) == nrow(table)) {
-              column <- sapply(column, function(x) {
-                if (length(x) > 0) {
-                  paste(x, collapse="; ")
-                } else {
-                  NA
-                }
-              })
-            } else {
-                column <- NULL
-            }
-        # List of integer
-        } else if (all(sapply(column, class) == "integer" | 
-                       sapply(column, is.null))) {
-          if (length(column) == nrow(table)) {
-            column <- sapply(column, function(x) {
-              if (length(x) > 0) {
-                paste(x, collapse="; ")
-              } else {
-                NA
-              }
-            })
-          } else {
-            column <- NULL
-          }
-        
-        # List of logical
-        } else if (all(sapply(column, class) == "logical" | 
-                      sapply(column, is.null))) {
-            if (length(column) == nrow(table)){
-                column <- sapply(column, function(x) {
-                    if (length(x) > 0) {
-                        paste(x, collapse="; ")
-                    } else {
-                         NA
-                    }
-                })
-            }else{
-                column <- NULL
-            }
-        
-        # List of character vector
-        } else if (all(sapply(column, class) == "character" |
-                   sapply(column, is.null))) {
-            
-            if (all(sapply(column, length) <= 1)) {
-                column <- sapply(column, function(x) {
-                    if (length(x) > 0) {
-                        x[[1]]
-                    } else {
-                        NA
-                    }
-                })
-            } else {
-                column <- sapply(column, function(x) {
-                    if (length(x) > 0) {
-                        paste(x, collapse="; ")
-                    } else {
-                        NA
-                    }
-                })
-        
-            }
-        # List of data.frames
-        } else if (all(sapply(column, class) == "data.frame" |
-                   sapply(column, is.null))) {
-            res <- vector("list", length(column))
-            for (i in seq_along(column)) {
-                if (is.null(column[[i]])) {
-                    res[[i]] <- NA
-                } else if (nrow(column[[i]]) >= 1) {
-                    if (nrow(column[[i]]) == 1) {
-                        res[[i]] <- unlist(column[[i]])
-                        list_name <- names(unlist(column[[i]]))
-                    } else {
-                        res[[i]] <- unlist(column[[i]][1,])
-                        list_name <- names(unlist(column[[i]][1,]))
-                        if (ncol(column[[i]]) == 1) {
-                            list_name <- names(unlist(column[[i]][1]))
-                            list_name <- unique(gsub("\\d", "", list_name))
-                        }
-                        
-                    }
-                    
-                    list_name <- (gsub("\\d", "", list_name))
-                    list_name <- (gsub("@", "", list_name))
-                    list_name_unique <- unique(gsub("\\d", "", list_name))
-                    
-                    if (!(length(list_name) == length(list_name_unique))) {
-                        splited <- split(res[[i]], list_name)
-                        res[[i]] <- sapply(splited, paste0, collapse=";")
-                        names(res[[i]]) <- list_name_unique
-                    } else{
-                        names(res[[i]]) <- list_name 
-                    }
-                } else {
-                    res[[i]] <- NA
-                }
-            }
-        
-            column_clean <- res
-            list_data <- vector("list",length(column))
-            list_data <- lapply(seq_along(column_clean),function(x) {
-                a=column_clean[[x]]
-                if (all(is.na(a))) {
-                    df <- data.frame(sample=NULL, col_name=NULL, value=NULL)
-                } else {
-                    df <- data.frame(sample=x, col_name=names(a), value=a,
-                           stringsAsFactors=FALSE)
-                    row.names(df) <- NULL
-                }
-                df
-            })
-      
-            df_clean <- do.call("rbind", list_data)
-            df_clean$sample <- factor(df_clean$sample,
-                                      levels=seq_along(column_clean))
-            df_clean <- spread(df_clean, "col_name", "value", drop=FALSE)
-            df_clean$sample <- NULL
-            column <- df_clean
-        } else {
-            result <- as.list(rep(NA, nrow(table)))
-            for(i in seq_along(result)){
-              result[[i]] <- paste(unlist(column[[i]]), collapse = "; ")
-            }
-            column <- unlist(result)
-        }
-    
-    # List of something else
-    } else {
-      column <- NULL
-    }
-
-  type <- c("character", "data.frame", "logical",
-            "numeric", "integer", "NULL")
-  stopifnot(class(column) %in% type)
-  if(is(column, "data.frame")) {
-      stopifnot(nrow(column) == nrow(table))
-  }else if((class(column) %in% type) & !(is.null(column))){
-      stopifnot(length(column) == nrow(table))
-  }
-
-  column
-}
-
 #' Clean a data.frame that was produced by fetch_table_from_ENCODE_REST
 #'
 #' \code{data.frame}s produced when converting JSON to \code{data.frame} with
@@ -289,19 +55,18 @@ clean_column <- function(column_name, table) {
 #'
 #' @return a \code{data.frame} corresponding to the cleaned version of the
 #' input \code{data.frame}.
-#' @keywords internal
+#' @export
 clean_table <- function(table) {
 
     class_vector <- as.vector(sapply(table, class))
-    table <- table[,class_vector %in% c("character", "list", "data.frame",
-                                        "logical", "numeric", "integer")]
+    good_class = class_vector %in% c("character", "list", "data.frame",
+                                        "logical", "numeric", "integer")
+    table <- table[,good_class]
     table_names <- gsub("@", "", colnames(table))
     table <- lapply(colnames(table), clean_column, table)
     names(table) <- table_names
     table[sapply(table, is.null)] <- NULL
     result <- data.frame(table, stringsAsFactors = FALSE)
-    
-    
 }
 
 #' Extract the schemas from ENCODE's github
@@ -371,4 +136,100 @@ get_encode_types <- function() {
   schema_names <- jsonlite::fromJSON(url)$name
   schema_names <- schema_names[grepl(".json$", schema_names)]
   tools::file_path_sans_ext(schema_names)
+}
+
+
+# Collapse a vector/list of primitive types into a vector.
+# If the input value is empty, return NA.
+# If all elements are identical, return that element.
+# If there are multiple elements, collapse them.
+paste_or_na = function(x) {
+    if (length(x) > 0) {
+        if(length(unique(unlist(x))) == 1) {
+            # Sometimes we deal with lists, sometimes vectors.
+            # Make sure we index into those correctly to retrieve a single
+            # element, rather than a length-1 list.
+            ifelse(is.list(x), x[[1]][1], x[1])
+        } else {
+            # Collapse multiple different elements.
+            paste(x, collapse="; ")
+        }
+    } else {
+        # If there are no elements, return NA, not NULL.
+        NA
+    }
+}
+
+#' Clean a single column of a flattened data.frame returned by ENCODE.
+#'
+#' The input column can either be a data.frame, a vector of character, a vector
+#' of numeric or a list of one the previous type.
+#'
+#' This function will either remove columns that are not relevant and convert
+#' columns to a vector or data.frame.
+#'
+#' @param column_name The name of the column to be processed.
+#' @param table The table produced by the \code{fetch_table_from_ENCODE_REST} 
+#'              function.
+#'
+#' @return A flat column or columns to be cbind'ed into the final data.frame.
+#' @importFrom methods is
+#' @keywords internal
+clean_column <- function(column_name, table) {
+    stopifnot(is.character(column_name))
+    stopifnot(column_name %in% colnames(table))
+    stopifnot(length(column_name) == 1)
+    stopifnot(is.data.frame(table))
+    stopifnot(nrow(table) >= 1)
+    
+    column = clean_column_internal(table[[column_name]], nrow(table), column_name)
+
+    type <- c("character", "data.frame", "logical",
+              "numeric", "integer", "NULL")
+    stopifnot(class(column) %in% type)
+    if(methods::is(column, "data.frame")) {
+        stopifnot(nrow(column) == nrow(table))
+    }else if((class(column) %in% type) & !(is.null(column))){
+        stopifnot(length(column) == nrow(table))
+    }
+    
+    column
+}
+
+# Workhorse cleaning function.
+#
+# - We return primitive numeric, logical or character columns as-is.
+# - List columns are "flattened" into a vector if all of their elements consist
+#   of a single type. 
+# - If all elements of a list column are data-frames, we extract and flattened
+#   all identically named columns as if they were a list of primitive types.
+clean_column_internal = function(column, expected_nrow, column_name) {
+    if(is.list(column)) {
+        # Special case if all list elements are data-frames, then
+        # combine identical columns.
+        if(all(unlist(lapply(column, is.data.frame)))) {
+            # Identify all unique column names.
+            unique_colnames = unique(unlist(lapply(column, colnames)))
+            names(unique_colnames) = unique_colnames
+            
+            # Collapse all unique columns into vectors.
+            new_columns = lapply(unique_colnames, function(x) {
+                unlist(lapply(lapply(column, "[[", x), paste_or_na))
+            })
+            
+            # Convert the columns to a data.frame so they can be cbind'ed/
+            # constructed into a data.frame.
+            return(data.frame(new_columns))
+        } else {
+            # List of primitive types: collapse individual elements
+            # with paste(collapse=TRUE), substituting NA instead of NULL
+            # when the list is empty.
+            col_as_string = unlist(lapply(column, paste_or_na))
+            col_as_string = gsub('"', '', gsub("c\\((.+?)\\);", "\\1;", col_as_string))
+            return(col_as_string)
+        }
+    } else {
+        # Columns of primitive scalar types are returned as-is.
+        return(column)
+    }
 }

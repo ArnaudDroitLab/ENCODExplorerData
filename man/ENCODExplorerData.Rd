@@ -3,7 +3,6 @@
 \docType{package}
 \name{ENCODExplorerData}
 \alias{ENCODExplorerData}
-\alias{ENCODExplorerData-package}
 \title{ENCODExplorerData}
 \description{
 This package aims to ease access to ENCODE file metadata by converting them
