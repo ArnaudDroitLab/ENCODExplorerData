@@ -217,12 +217,24 @@ clean_column_internal = function(column, expected_nrow, column_name) {
             
             # Collapse all unique columns into vectors.
             new_columns = lapply(unique_colnames, function(x) {
-                unlist(lapply(lapply(column, "[[", x), paste_or_na))
+                # Extract values from the columns of each individual data.frame
+                list_of_values = lapply(column, "[[", x)
+                # Collapse the values into a vector of scalar primitives.
+                collaped_values = lapply(list_of_values, function(y) {
+                    # Sometimes, we'll have a list here. From the top, we have:
+                    #   JSON Table as data.frame
+                    #    +-> Column which is a list of data.frames
+                    #         +-> Column which is a list of scalar
+                    if(is.list(y))
+                        y = unlist(y)
+                    paste_or_na(y)
+                })
+                unlist(collaped_values)
             })
             
             # Convert the columns to a data.frame so they can be cbind'ed/
             # constructed into a data.frame.
-            return(data.frame(new_columns))
+            return(data.frame(new_columns, check.names=FALSE))
         } else {
             # List of primitive types: collapse individual elements
             # with paste(collapse=TRUE), substituting NA instead of NULL
