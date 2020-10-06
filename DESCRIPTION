@@ -9,7 +9,7 @@ Authors@R: c(
            email = "charles.joly-beauparlant@crchul.ulaval.ca", 
            role = "aut"),
     person("Eric","Fournier", 
-           email = "Fournier.Eric.2@crchudequebec.ulaval.ca", 
+           email = "ericfournier2@yahoo.ca", 
            role = c("aut", "cre")),
     person("Arnaud", "Droit", 
            email = "arnaud.droit@crchudequebec.ulaval.ca",
